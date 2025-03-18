@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Featured() {
   const works = [
@@ -14,248 +15,109 @@ function Featured() {
   ];
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [filter, setFilter] = useState("ALL");
 
   const toggleAccordion = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const renderDescription = (id: string) => {
-    switch (id) {
-      case "01":
-        return (
-          <>
-            <div className="grid grid-cols-2 gap-4">
-              {/* Background Image Card */}
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+    const items = [
+      {
+        id: "01",
+        category: "Listing Image",
+        image: "/assets/works/24K-Eye-Mask-IMG_3.png",
+        title: "24K GOLDEN UNDER-EYE MASK",
+        subtitle: "SKIN CARE CLUB",
+      },
+      {
+        id: "02",
+        category: "EBC A+",
+        image: "/assets/works/Image-4.png",
+        title: "DIGITAL JUMP ROPE",
+        subtitle: "JUMPSIO",
+      },
+      {
+        id: "03",
+        category: "Listing Image",
+        image: "/assets/works/Listing-ImagesImage-6 1.png",
+        title: "GOLFLING KIDS PUTTER FOR GLOF",
+        subtitle: "GOLFING",
+      },
+      {
+        id: "04",
+        category: "EBC A+",
+        image: "/assets/works/MEDELLA-NATURALS-Image-2.png",
+        title: "INSECT & MOSQUITO REPELLENT",
+        subtitle: "MEDELLA NATURALS",
+      },
+      {
+        id: "05",
+        category: "Listing Image",
+        image: "/assets/works/Pizza-Peel_Image-3-R3.png",
+        title: "PIZZA PEEL",
+        subtitle: "ZLION",
+      },
+    ];
 
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
+    const filteredItems =
+      filter === "ALL"
+        ? items
+        : items.filter((item) => item.category === filter);
 
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        {/* Filter Buttons */}
+        <div className="flex space-x-4 mb-6">
+          {["ALL", "Listing Image", "EBC A+"].map((option) => (
+            <button
+              key={option}
+              className={`px-4 py-2 rounded-md text-white ${
+                filter === option ? "bg-blue-600" : "bg-gray-600"
+              }`}
+              onClick={() => setFilter(option)} // Ensure this updates state
+            >
+              {option}
+            </button>
+          ))}
+        </div>
 
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
-                style={{
-                  backgroundImage:
-                    "url('/assets/works/24K-Eye-Mask-IMG_3.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Overlay for better readability */}
-                <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-
-                {/* Text content positioned in front */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                  <h2 className="text-2xl font-bold">
-                    Amazon Listing Optimization
-                  </h2>
-                  <p className="text-lg">
-                    Maximize visibility with well-crafted product listings.
-                  </p>
-                </div>
+        {/* Grid Display */}
+        <div className="grid grid-cols-2 gap-4">
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              className="p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[400px] flex items-center justify-center"
+              style={{
+                backgroundImage: `url(${item.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+                <h2 className="text-2xl font-bold">{item.title}</h2>
+                <p className="text-lg">{item.subtitle}</p>
               </div>
             </div>
-          </>
-        );
-      case "02":
-        return (
-          <div className="p-6 border-l-8 border-red-500">
-            <h2 className="text-xl font-semibold text-red-600">
-              Custom Banners
-            </h2>
-            <p>Stand out with visually appealing banners for your brand.</p>
-          </div>
-        );
-      case "03":
-        return (
-          <div className="p-6 bg-blue-50 border border-blue-400 rounded-xl shadow-lg">
-            <h2 className="text-xl font-bold text-blue-600">Booth Design</h2>
-            <p>Transform your exhibition space with innovative designs.</p>
-          </div>
-        );
-      case "04":
-        return (
-          <div className="p-6 bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-md">
-            <h2 className="text-xl font-bold">Branding Solutions</h2>
-            <p>Create a strong and unique brand identity.</p>
-          </div>
-        );
-      case "05":
-        return (
-          <div className="p-6 flex items-center gap-4 bg-black text-white rounded-lg shadow">
-            <div className="w-16 h-16 bg-red-600"></div>
-            <div>
-              <h2 className="text-xl font-bold">LED Visuals</h2>
-              <p>Vibrant and dynamic LED displays to capture attention.</p>
-            </div>
-          </div>
-        );
-      case "06":
-        return (
-          <div className="p-6 bg-white border-l-4 border-gray-500 shadow">
-            <h2 className="text-xl font-bold">Social Media Posts</h2>
-            <p>Engaging content that resonates with your audience.</p>
-          </div>
-        );
-      case "07":
-        return (
-          <div className="p-6 bg-gray-800 text-white border-l-4 border-yellow-400 rounded-md">
-            <h2 className="text-xl font-bold">Website Design</h2>
-            <p>Creating modern and responsive web experiences.</p>
-          </div>
-        );
-      default:
-        return null;
-    }
+          ))}
+        </div>
+        {/* Fading Gradient Overlay */}
+        <div
+          className="absolute inset-0 rounded-lg"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(10, 10, 10, 1), rgba(0, 0, 255, 0) 60%)",
+            pointerEvents: "none",
+          }}
+        ></div>
+      </motion.div>
+    );
   };
 
   return (
@@ -331,11 +193,21 @@ function Featured() {
               </svg>
             </div>
           </div>
-          {openIndex === index && (
-            <div className="accordion-content transform transition-transform ease-in-out duration-500 mt-4">
-              {renderDescription(work.id)}
-            </div>
-          )}
+          <AnimatePresence>
+            {openIndex === index && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="overflow-hidden"
+              >
+                <div className="accordion-content transform transition-transform ease-in-out duration-500 mt-4">
+                  {renderDescription(work.id)}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <div className="divider" />
         </div>
       ))}

@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 function Featured() {
   const works = [
@@ -41,6 +42,7 @@ function Featured() {
       image: "/assets/works/amazon_project6.png",
       title: "HAIR VIBRANCE",
       subtitle: "/ VITA MIRACLE",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "03",
@@ -48,6 +50,7 @@ function Featured() {
       image: "/assets/works/amazon_project1.png",
       title: "24K GOLDEN UNDER-EYE MASK",
       subtitle: "/ SKIN CARE CLUB",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "02",
@@ -55,6 +58,7 @@ function Featured() {
       image: "/assets/works/amazon_project3.png",
       title: "GOLFLING KIDS PUTTER FOR GOLF",
       subtitle: "/ GOLFING",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "04",
@@ -62,6 +66,7 @@ function Featured() {
       image: "/assets/works/amazon_project7.png",
       title: "THE GENIUS LAB",
       subtitle: "/ KANGO KIDS",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "05",
@@ -69,6 +74,7 @@ function Featured() {
       image: "/assets/works/amazon_project5.png",
       title: "PIZZA PEEL",
       subtitle: "/ ZLION",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "06",
@@ -76,6 +82,7 @@ function Featured() {
       image: "/assets/works/amazon_project2.png",
       title: "DIGITAL JUMP ROPE ",
       subtitle: "/ JUMPSIO",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "07",
@@ -83,6 +90,7 @@ function Featured() {
       image: "/assets/works/amazon_project8.png",
       title: "MASALA CHAI",
       subtitle: "/ BLUE LOTUS CHAI",
+      link: "/projects/hair-vibrance",
     },
     {
       id: "08",
@@ -90,6 +98,7 @@ function Featured() {
       image: "/assets/works/amazon_project4.png",
       title: "INSECT & MOSQUITO REPELLENT",
       subtitle: "/ MEDELLA NATURALS",
+      link: "/projects/hair-vibrance",
     },
   ];
 
@@ -137,8 +146,8 @@ function Featured() {
         {["ALL", "Listing Image", "EBC A+"].map((option) => (
           <button
             key={option}
-            className={`px-4 py-2 rounded-md text-white cursor-pointer ${
-              filter === option ? "bg-blue-600" : "bg-gray-600"
+            className={`px-4 py-2 rounded-full text-white cursor-pointer uppercase ${
+              filter === option ? "bg-[#DB0102]" : "bg-transparent border"
             }`}
             onClick={() => setFilter(option)}
           >
@@ -164,9 +173,6 @@ function Featured() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className={`p-6 bg-gray-900 text-white rounded-[25px] overflow-hidden shadow-md relative h-[360px] flex items-center justify-center transition-opacity`}
               style={{
-                // backgroundImage: `url(${item.image})`,
-                // backgroundSize: "cover",
-                // backgroundPosition: "center",
                 border:
                   filter !== "ALL" && item.category === filter
                     ? "2px solid #6a6a6a"
@@ -178,8 +184,8 @@ function Featured() {
                 <Image
                   src={item.image}
                   alt={item.title}
-                  width={500} // Adjust based on your image size
-                  height={300} // Adjust based on your image size
+                  width={500}
+                  height={300}
                   className={`${getItemStyles(item.id)} object-contain`}
                 />
               </div>
@@ -190,25 +196,32 @@ function Featured() {
                     "linear-gradient(to top, rgba(0, 0, 0, 0.813), rgba(106, 106, 106, 0.2) 80%)",
                 }}
               ></div>
-              <div className="absolute bottom-[100px] left-0 flex justify-end items-end px-[25px]">
+              <div className="absolute bottom-[100px] left-0 px-[25px]">
                 <h2
                   className="text-[60px] font-bold leading-tight text-start"
                   style={{ fontFamily: "Anton, sans-serif" }}
                 >
-                  {item.title.split("\n").map((line, index, arr) => (
-                    <span key={index} className="block leading-[1.2]">
-                      {line}
-                      {/* Append subtitle to the last line */}
-                      {index === arr.length - 1 && (
-                        <span className="text-[25px] font-normal">
-                          {" "}
-                          {item.subtitle}
-                        </span>
-                      )}
-                    </span>
-                  ))}
+                  {item.title.split("\n").map((line, index, arr) => {
+                    // Check if it's the last line to attach the subtitle
+                    const isLastLine = index === arr.length - 1;
+                    return (
+                      <span key={index} className="block leading-[1.2]">
+                        {isLastLine ? (
+                          <>
+                            {line}{" "}
+                            <span className="text-[25px] font-normal align-[100%]">
+                              {item.subtitle}
+                            </span>
+                          </>
+                        ) : (
+                          line
+                        )}
+                      </span>
+                    );
+                  })}
                 </h2>
               </div>
+
               <motion.button
                 className={`absolute bottom-[25px] gap-2 left-[25px] flex items-center justify-center border rounded-full transition-all duration-300  cursor-pointer ${
                   hoveredButton === item.id
@@ -218,37 +231,41 @@ function Featured() {
                 onMouseEnter={() => setHoveredButton(item.id)}
                 onMouseLeave={() => setHoveredButton(null)}
               >
-                <AnimatePresence>
-                  {hoveredButton === item.id && (
-                    <motion.span
-                      className="ml-3 text-white text-[25px] whitespace-nowrap"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{
-                        duration: 0,
-                        ease: "easeInOut",
-                        delay: 0.1,
-                      }}
+                <Link href={item.link} passHref>
+                  <div className="flex items-center gap-2">
+                    <AnimatePresence>
+                      {hoveredButton === item.id && (
+                        <motion.span
+                          className="ml-3 text-white text-[25px] whitespace-nowrap"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -10 }}
+                          transition={{
+                            duration: 0,
+                            ease: "easeInOut",
+                            delay: 0.1,
+                          }}
+                        >
+                          View Work
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                    <svg
+                      width="24"
+                      height="25"
+                      viewBox="0 0 24 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      View Work
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                <svg
-                  width="24"
-                  height="25"
-                  viewBox="0 0 24 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.42915 12.5708H22.5708M22.5708 12.5708L12 2M22.5708 12.5708L12 23.1417"
-                    stroke="#F5F5F5"
-                    strokeWidth="2"
-                    strokeLinecap="square"
-                  />
-                </svg>
+                      <path
+                        d="M1.42915 12.5708H22.5708M22.5708 12.5708L12 2M22.5708 12.5708L12 23.1417"
+                        stroke="#F5F5F5"
+                        strokeWidth="2"
+                        strokeLinecap="square"
+                      />
+                    </svg>
+                  </div>
+                </Link>
               </motion.button>
             </motion.div>
           ))}

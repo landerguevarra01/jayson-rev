@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 function Featured() {
   const works = [
@@ -16,6 +17,7 @@ function Featured() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [filter, setFilter] = useState("ALL");
   const refs = useRef<(HTMLDivElement | null)[]>([]);
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -41,18 +43,18 @@ function Featured() {
       subtitle: "/ VITA MIRACLE",
     },
     {
-      id: "02",
-      category: "Listing Image",
-      image: "/assets/works/amazon_project3.png",
-      title: "GOLFLING KIDS PUTTER FOR GOLF",
-      subtitle: "GOLFING",
-    },
-    {
       id: "03",
       category: "Listing Image",
       image: "/assets/works/amazon_project1.png",
       title: "24K GOLDEN UNDER-EYE MASK",
-      subtitle: "SKIN CARE CLUB",
+      subtitle: "/ SKIN CARE CLUB",
+    },
+    {
+      id: "02",
+      category: "Listing Image",
+      image: "/assets/works/amazon_project3.png",
+      title: "GOLFLING KIDS PUTTER FOR GOLF",
+      subtitle: "/ GOLFING",
     },
     {
       id: "04",
@@ -66,14 +68,14 @@ function Featured() {
       category: "Listing Image",
       image: "/assets/works/amazon_project5.png",
       title: "PIZZA PEEL",
-      subtitle: "ZLION",
+      subtitle: "/ ZLION",
     },
     {
       id: "06",
       category: "Listing Image",
       image: "/assets/works/amazon_project2.png",
-      title: "DIGITAL JUMP ROPE",
-      subtitle: "JUMPSIO",
+      title: "DIGITAL JUMP ROPE ",
+      subtitle: "/ JUMPSIO",
     },
     {
       id: "07",
@@ -87,7 +89,7 @@ function Featured() {
       category: "Listing Image",
       image: "/assets/works/amazon_project4.png",
       title: "INSECT & MOSQUITO REPELLENT",
-      subtitle: "MEDELLA NATURALS",
+      subtitle: "/ MEDELLA NATURALS",
     },
   ];
 
@@ -95,21 +97,21 @@ function Featured() {
   const getItemStyles = (id) => {
     switch (id) {
       case "01":
-        return "";
+        return "scale-[122%]";
       case "02":
-        return "";
+        return "scale-[119%] mb-[190px]";
       case "03":
-        return "";
+        return "scale-[119%] mb-[175px]";
       case "04":
-        return "";
+        return "scale-[119%]";
       case "05":
-        return "";
+        return "scale-[120%] mt-[70px]";
       case "06":
-        return "";
+        return "scale-[119%] mt-[3px]";
       case "07":
-        return "";
+        return "scale-[119%] mt-[5px]";
       case "08":
-        return "";
+        return "scale-[119.5%] mt-[4px]";
       default:
         return "";
     }
@@ -160,30 +162,94 @@ function Featured() {
               }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className={`p-6 bg-gray-900 text-white rounded-lg shadow-md relative h-[360px] flex items-center justify-center transition-opacity  ${getItemStyles(
-                item.id
-              )}`}
+              className={`p-6 bg-gray-900 text-white rounded-[25px] overflow-hidden shadow-md relative h-[360px] flex items-center justify-center transition-opacity`}
               style={{
-                backgroundImage: `url(${item.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                // backgroundImage: `url(${item.image})`,
+                // backgroundSize: "cover",
+                // backgroundPosition: "center",
                 border:
                   filter !== "ALL" && item.category === filter
                     ? "2px solid #6a6a6a"
                     : "",
               }}
             >
+              {/* Image Wrapper */}
+              <div className="absolute inset-0 flex justify-center items-center">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={500} // Adjust based on your image size
+                  height={300} // Adjust based on your image size
+                  className={`${getItemStyles(item.id)} object-contain`}
+                />
+              </div>
               <div
                 className="absolute inset-0 rounded-lg opacity-100"
                 style={{
                   background:
-                    "linear-gradient(to top, rgba(106, 106, 106, 0.8), rgba(106, 106, 106, 0) 70%)",
+                    "linear-gradient(to top, rgba(0, 0, 0, 0.813), rgba(106, 106, 106, 0.2) 80%)",
                 }}
               ></div>
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
-                <h2 className="text-2xl font-bold">{item.title}</h2>
-                <p className="text-lg">{item.subtitle}</p>
+              <div className="absolute bottom-[100px] left-0 flex justify-end items-end px-[25px]">
+                <h2
+                  className="text-[60px] font-bold leading-tight text-start"
+                  style={{ fontFamily: "Anton, sans-serif" }}
+                >
+                  {item.title.split("\n").map((line, index, arr) => (
+                    <span key={index} className="block leading-[1.2]">
+                      {line}
+                      {/* Append subtitle to the last line */}
+                      {index === arr.length - 1 && (
+                        <span className="text-[25px] font-normal">
+                          {" "}
+                          {item.subtitle}
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </h2>
               </div>
+              <motion.button
+                className={`absolute bottom-[25px] gap-2 left-[25px] flex items-center justify-center border rounded-full transition-all duration-300  cursor-pointer ${
+                  hoveredButton === item.id
+                    ? "w-[209px] h-[65px] bg-[#DB0102] border-[#DB0102]"
+                    : "w-[65px] h-[65px]"
+                }`}
+                onMouseEnter={() => setHoveredButton(item.id)}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
+                <AnimatePresence>
+                  {hoveredButton === item.id && (
+                    <motion.span
+                      className="ml-3 text-white text-[25px] whitespace-nowrap"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{
+                        duration: 0,
+                        ease: "easeInOut",
+                        delay: 0.1,
+                      }}
+                    >
+                      View Work
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                <svg
+                  width="24"
+                  height="25"
+                  viewBox="0 0 24 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.42915 12.5708H22.5708M22.5708 12.5708L12 2M22.5708 12.5708L12 23.1417"
+                    stroke="#F5F5F5"
+                    strokeWidth="2"
+                    strokeLinecap="square"
+                  />
+                </svg>
+              </motion.button>
             </motion.div>
           ))}
         </div>
@@ -213,8 +279,22 @@ function Featured() {
             className="flex flex-row items-center gap-12 cursor-pointer hover:scale-105 transform transition-all duration-300"
             onClick={() => toggleAccordion(index)}
           >
-            <h1 className="text-[80px] font-bold italic">{work.id}</h1>
-            <h1 className="text-[80px]">{work.title}</h1>
+            <h1
+              className="text-[80px] font-bold"
+              style={{
+                fontFamily: "Roxborough CF",
+                fontWeight: "bold",
+                fontStyle: "italic",
+              }}
+            >
+              {work.id}
+            </h1>
+            <h1
+              className="text-[80px]"
+              style={{ fontFamily: "Anton, sans-serif" }}
+            >
+              {work.title}
+            </h1>
             <div className="hidden md:flex absolute right-0 -mt-8">
               <svg
                 width="42"

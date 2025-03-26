@@ -10,31 +10,31 @@ const Featured = lazy(() => import("./featuredworks"));
 const Remarks = lazy(() => import("./remarks"));
 
 export default function HomePage() {
-  const marqueeContainerRef = useRef(null);
+  // const marqueeContainerRef = useRef(null);
 
-  useEffect(() => {
-    const marquees =
-      marqueeContainerRef.current?.querySelectorAll(".marquee-inner");
+  // useEffect(() => {
+  //   const marquees =
+  //     marqueeContainerRef.current?.querySelectorAll(".marquee-inner");
 
-    marquees.forEach((marquee) => {
-      const distance = marquee.scrollWidth / 2;
+  //   marquees.forEach((marquee) => {
+  //     const distance = marquee.scrollWidth / 2;
 
-      const animation = gsap.fromTo(
-        marquee,
-        { x: 0 },
-        {
-          x: `-${distance}px`, // Always moves left
-          duration: 16,
-          ease: "none",
-          repeat: -1,
-        }
-      );
+  //     const animation = gsap.fromTo(
+  //       marquee,
+  //       { x: 0 },
+  //       {
+  //         x: `-${distance}px`, // Always moves left
+  //         duration: 16,
+  //         ease: "none",
+  //         repeat: -1,
+  //       }
+  //     );
 
-      return () => {
-        animation.kill();
-      };
-    });
-  }, []);
+  //     return () => {
+  //       animation.kill();
+  //     };
+  //   });
+  // }, []);
 
   const marqueeTexts = [
     "CREATIVE • CREATIVE • CREATIVE •",
@@ -60,27 +60,24 @@ export default function HomePage() {
         </div>
       </Suspense>
 
-      <div className="flex flex-col justify-center items-center w-screen overflow-hidden">
-        {/* Marquee Section with Gradient */}
+      {/* <div className="flex flex-col justify-center items-center w-screen overflow-hidden">
         <div className="relative w-full flex flex-col justify-center items-center overflow-hidden">
-          {/* Left Gradient Overlay */}
           <div className="absolute left-0 top-0 h-full w-[800px] bg-gradient-to-r from-[#1D1D1D] via-transparent to-transparent z-10 pointer-events-none"></div>
 
-          {/* Right Gradient Overlay */}
           <div className="absolute right-0 top-0 h-full w-[800px] bg-gradient-to-l from-[#1D1D1D] via-transparent to-transparent z-10 pointer-events-none"></div>
 
           <div
             ref={marqueeContainerRef}
             className="w-screen flex flex-col justify-center items-center bg-transparent overflow-hidden"
           >
-            {["CREATIVE", "TWIST", "REMARKABLE", "IMPACTS!"].map(
+            {["CREATIVE", "twist", "REMARKABLE", "impacts!"].map(
               (text, index) => (
                 <div
                   key={index}
                   className="flex justify-center items-center w-full py-4"
                 >
                   <div className="overflow-hidden w-screen">
-                    <div className="marquee flex w-max whitespace-nowrap font-bold text-white uppercase">
+                    <div className="marquee flex w-max whitespace-nowrap font-bold text-white">
                       <div className="marquee-inner flex w-max">
                         {[...Array(2)].map((_, i) => (
                           <div key={i} className="flex items-center space-x-4">
@@ -115,6 +112,53 @@ export default function HomePage() {
             )}
           </div>
         </div>
+      </div> */}
+
+      <div className="flex flex-col justify-center items-center w-[620px] overflow-hidden">
+        <Marquee
+          speed={20}
+          gradient={true}
+          gradientColor="#1d1d1d"
+          gradientWidth={50}
+          direction="left"
+          autoFill
+        >
+          <h1 className="mx-[120px] text-[160px]">CREATIVE</h1>
+          <div className="w-[361px] h-[200px] bg-gray-600"></div>
+        </Marquee>
+        <Marquee
+          speed={20}
+          gradient={true}
+          gradientColor="#1d1d1d"
+          gradientWidth={50}
+          direction="left"
+          autoFill
+        >
+          <h1 className="mx-[20px] text-[160px]">twist</h1>
+          <div className="w-[361px] h-[200px] bg-gray-600"></div>
+        </Marquee>
+        <Marquee
+          speed={20}
+          gradient={true}
+          gradientColor="#1d1d1d"
+          gradientWidth={50}
+          direction="left"
+          autoFill
+        >
+          <h1 className="mx-[20px] text-[160px]">REMARKABLE</h1>
+          <div className="w-[361px] h-[200px] bg-gray-600"></div>
+        </Marquee>
+        <Marquee
+          speed={20}
+          gradient={true}
+          gradientColor="#1d1d1d"
+          gradientWidth={50}
+          direction="left"
+          autoFill
+        >
+          <h1 className="mx-[20px] text-[160px]">impacts!</h1>
+          <div className="w-[361px] h-[200px] bg-gray-600"></div>
+        </Marquee>
       </div>
 
       <Suspense fallback={<div>Loading Remarks...</div>}>
